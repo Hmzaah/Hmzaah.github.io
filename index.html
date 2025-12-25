@@ -1,457 +1,607 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K Mohammed Hamza | Portfolio</title>
+    <title>Hamza's Engineering Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Fonts: Inter for body, Press Start 2P for retro headers -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    
-    <!-- Animation Library (AOS) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'],
-                        retro: ['"Press Start 2P"', 'cursive'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        pokeRed: '#ef4444',
-                        pokeDark: '#1f2937',
-                        pokeYellow: '#fbbf24',
-                        pokeBlue: '#3b82f6',
-                        pokeBg: '#f3f4f6',
+                        os: {
+                            bg: '#0f172a',        // Slate 900
+                            window: 'rgba(30, 41, 59, 0.95)', // Glassy Slate (Higher opacity for readability)
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            accent: '#38bdf8',    // Sky Blue
+                            text: '#f1f5f9',      // Slate 100
+                            muted: '#94a3b8',     // Slate 400
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #f3f4f6; color: #1f2937; }
+        body { margin: 0; overflow: hidden; background-color: #0f172a; color: #f1f5f9; }
         
-        /* Gameboy-style Dot Matrix Background */
-        .bg-gameboy {
-            background-image: radial-gradient(#d1d5db 2px, transparent 2px);
-            background-size: 20px 20px;
+        /* Premium Abstract Wallpaper */
+        #wallpaper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.08), transparent 25%), 
+                        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+            z-index: 0;
         }
-
-        /* Retro Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #1f2937; }
-        ::-webkit-scrollbar-thumb { background: #ef4444; border: 2px solid #1f2937; }
-        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
-        
-        /* Sidebar Link Active State - Retro Cursor */
-        .nav-link.active {
-            color: #ef4444;
-            position: relative;
-        }
-        .nav-link.active::before {
-            content: '▶';
-            position: absolute;
-            left: -20px;
-            font-size: 10px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* Holographic Card Effect */
-        .holo-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .holo-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: #ef4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-        }
-        /* Holographic sheen */
-        .holo-card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -200%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(115deg, transparent, transparent, rgba(255, 255, 255, 0.5), transparent, transparent);
-            transition: 0.5s;
+        #grid-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
             pointer-events: none;
         }
-        .holo-card:hover::after {
-            left: 100%;
+
+        /* Centerpiece Widget */
+        .center-widget {
+            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 1;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .widget-time { font-size: 64px; font-weight: 200; letter-spacing: -2px; color: rgba(255,255,255,0.9); line-height: 1; }
+        .widget-date { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
+        .widget-loc { 
+            margin-top: 24px; 
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.05); 
+            padding: 8px 16px; 
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px; color: rgba(255,255,255,0.7);
         }
 
-        /* Type Badges */
-        .type-badge {
-            text-transform: uppercase;
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 4px;
-            letter-spacing: 0.05em;
-            box-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+        /* Desktop Icons */
+        .icon-grid {
+            position: absolute; top: 40px; left: 40px;
+            display: flex; flex-direction: column; gap: 32px;
+            z-index: 10;
         }
-        .type-tech { background-color: #9ca3af; color: white; border: 1px solid #4b5563; } /* Steel */
-        .type-ai { background-color: #f472b6; color: white; border: 1px solid #be185d; } /* Psychic */
-        .type-code { background-color: #60a5fa; color: white; border: 1px solid #1d4ed8; } /* Water */
-        .type-fire { background-color: #f87171; color: white; border: 1px solid #b91c1c; } /* Fire */
-        .type-grass { background-color: #4ade80; color: #064e3b; border: 1px solid #15803d; } /* Grass */
+        .desktop-icon {
+            width: 90px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+            cursor: pointer; transition: all 0.2s;
+            border-radius: 8px; padding: 10px;
+        }
+        .desktop-icon:hover { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px); }
+        .desktop-icon:active { transform: scale(0.95); }
+        
+        .icon-img {
+            font-size: 28px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+            transition: transform 0.2s;
+        }
+        .desktop-icon:hover .icon-img { transform: translateY(-2px); }
+        
+        .icon-label {
+            font-size: 12px; font-weight: 500; color: #e2e8f0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8); text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Glass Windows */
+        .window {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column;
+            min-width: 320px;
+            opacity: 0; transform: scale(0.95);
+            transition: opacity 0.2s cubic-bezier(0.2, 0, 0, 1), transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .window.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+        .window.minimized { opacity: 0; transform: translateY(20px) scale(0.9); pointer-events: none; }
+
+        .window-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: default; user-select: none;
+        }
+        .window-title { font-size: 13px; font-weight: 500; color: #cbd5e1; display: flex; align-items: center; gap: 8px; }
+        
+        /* Mac-style traffic lights */
+        .window-controls { display: flex; gap: 8px; }
+        .control-btn { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; position: relative; }
+        .btn-close { background: #ff5f57; border: 1px solid #e0443e; }
+        .btn-min { background: #ffbd2e; border: 1px solid #dea123; }
+        .btn-max { background: #27c93f; border: 1px solid #1aab29; }
+        .control-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
+
+        .window-content {
+            flex: 1; overflow-y: auto; padding: 24px;
+            color: #e2e8f0; font-size: 14px; line-height: 1.6;
+        }
+
+        /* Scrollbar */
+        .window-content::-webkit-scrollbar { width: 6px; }
+        .window-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .window-content::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* Floating Dock */
+        #dock-container {
+            position: absolute; bottom: 20px; left: 0; width: 100%;
+            display: flex; justify-content: center; z-index: 1000;
+            pointer-events: none;
+        }
+        
+        #dock {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 24px;
+            display: flex; gap: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            pointer-events: auto;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+        }
+        
+        .dock-item {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .dock-item:hover { 
+            transform: translateY(-12px) scale(1.1); 
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .dock-item.active::after {
+            content: ''; position: absolute; bottom: -6px;
+            width: 4px; height: 4px; background: #38bdf8; border-radius: 50%;
+            box-shadow: 0 0 8px #38bdf8;
+        }
+        
+        .dock-separator { width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 12px 4px; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body { overflow-y: auto; background: #0f172a; }
+            #wallpaper, #grid-overlay, .center-widget, #dock-container, .icon-grid { display: none; }
+            .window { 
+                position: relative !important; top: 0 !important; left: 0 !important; 
+                width: 100% !important; min-width: 0 !important; height: auto !important; 
+                transform: none !important; opacity: 1 !important;
+                border: none; border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-radius: 0; box-shadow: none; margin-bottom: 20px;
+                background: transparent;
+                pointer-events: auto !important;
+            }
+            .window-header { display: none; }
+            .window-content { padding: 0 20px 20px; overflow: visible; }
+            .mobile-header { display: block !important; padding: 40px 20px 20px; }
+        }
+        .mobile-header { display: none; }
     </style>
 </head>
-<body class="antialiased min-h-screen font-sans text-pokeDark">
+<body>
 
-    <div class="flex flex-col md:flex-row min-h-screen">
+    <!-- Wallpapers -->
+    <div id="wallpaper"></div>
+    <div id="grid-overlay"></div>
+
+    <!-- Centerpiece Widget -->
+    <div class="center-widget hidden md:flex">
+        <div class="widget-time" id="clock">00:00</div>
+        <div class="widget-date" id="date">LOADING...</div>
         
-        <!-- SIDEBAR (Trainer Card Style) -->
-        <aside class="w-full md:w-80 bg-white border-r-4 border-pokeDark p-0 md:fixed md:h-screen md:overflow-y-auto flex flex-col justify-between z-50">
-            
-            <!-- Red Banner Top -->
-            <div class="bg-pokeRed h-4 w-full border-b-4 border-pokeDark"></div>
-
-            <div class="p-8">
-                <!-- Profile Area -->
-                <div class="mb-10 text-center md:text-left" data-aos="fade-right">
-                    
-                    <!-- Avatar Frame -->
-                    <div class="relative w-32 h-32 mx-auto md:mx-0 mb-6 group">
-                        <!-- Pokeball background circle -->
-                        <div class="absolute inset-0 bg-gray-200 rounded-full border-4 border-pokeDark overflow-hidden flex items-center justify-center bg-white">
-                             <!-- Using a reliable Red sprite URL -->
-                             <img src="https://play.pokemonshowdown.com/sprites/trainers/red.png" alt="Trainer Red" class="w-24 h-24 object-contain pixelated relative z-10 group-hover:scale-110 transition-transform duration-300">
-                        </div>
-                        <!-- LVL Badge -->
-                        <div class="absolute -bottom-2 -right-2 bg-pokeYellow border-2 border-pokeDark px-2 py-0.5 rounded text-[10px] font-retro font-bold animate-bounce">
-                            LVL.21
-                        </div>
-                    </div>
-                    
-                    <h1 class="text-xl md:text-2xl font-retro text-pokeDark leading-relaxed mb-2">UNDERGRAD<br><span class="text-pokeRed">HAMZA</span></h1>
-                    
-                    <div class="border-2 border-pokeDark bg-gray-100 p-3 rounded mb-4 shadow-[2px_2px_0px_#000]">
-                        <p class="text-xs font-retro text-gray-500 mb-1">CLASS</p>
-                        <p class="text-xs font-bold text-pokeDark">ENGINEERING STUDENT</p>
-                    </div>
-
-                    <p class="text-xs text-gray-600 font-mono leading-relaxed">
-                        &gt; REGION: TAIWAN / INDIA<br>
-                        &gt; BADGES: 4<br>
-                        &gt; STATUS: SEEKING INTERNSHIP
-                    </p>
-                </div>
-
-                <!-- Navigation (Menu Style) -->
-                <nav class="space-y-4 mb-8 hidden md:block font-retro text-xs" data-aos="fade-right" data-aos-delay="100">
-                    <a href="#about" class="nav-link block hover:text-pokeRed transition-colors">ABOUT</a>
-                    <a href="#news" class="nav-link block hover:text-pokeRed transition-colors">NEWS & EVENTS</a>
-                    <a href="#projects" class="nav-link block hover:text-pokeRed transition-colors">POKÉDEX (PROJECTS)</a>
-                    <a href="#experience" class="nav-link block hover:text-pokeRed transition-colors">ADVENTURE LOG</a>
-                    <a href="#education" class="nav-link block hover:text-pokeRed transition-colors">TRAINING</a>
-                </nav>
-            </div>
-
-            <!-- Bottom: Contact Buttons -->
-            <div class="p-8 pt-0" data-aos="fade-right" data-aos-delay="200">
-                <div class="flex gap-4 justify-center md:justify-start">
-                    <a href="mailto:hk1583@srmist.edu.in" class="w-10 h-10 bg-pokeBlue border-2 border-pokeDark rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors shadow-[2px_2px_0px_#000]" title="Email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://github.com/Hmzaah" target="_blank" class="w-10 h-10 bg-gray-800 border-2 border-pokeDark rounded-full flex items-center justify-center text-white hover:bg-black transition-colors shadow-[2px_2px_0px_#000]" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/hamza-451672259" target="_blank" class="w-10 h-10 bg-[#0077b5] border-2 border-pokeDark rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors shadow-[2px_2px_0px_#000]" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="Resume.pdf" class="w-10 h-10 bg-pokeRed border-2 border-pokeDark rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors shadow-[2px_2px_0px_#000]" title="Resume"><i class="fas fa-file-pdf"></i></a>
-                </div>
-            </div>
-        </aside>
-
-        <!-- MAIN CONTENT -->
-        <main class="flex-1 md:ml-80 bg-gameboy relative">
-            
-            <div class="relative z-10 p-6 sm:p-12 lg:p-16 space-y-20 max-w-5xl mx-auto">
-
-                <!-- ABOUT -->
-                <section id="about" class="scroll-mt-24 section-observe" data-aos="fade-up">
-                    <div class="border-4 border-pokeDark bg-white p-6 rounded shadow-[4px_4px_0px_#000]">
-                        <h2 class="text-sm font-retro text-pokeRed mb-6">01. PLAYER BIO</h2>
-                        <h1 class="text-2xl md:text-3xl font-bold text-pokeDark mb-6 leading-tight">
-                            Undergraduate Engineer passionate about <span class="text-pokeBlue">Machine Learning</span> & <span class="text-pokeRed">Semiconductor Technology</span>.
-                        </h1>
-                        <div class="text-gray-700 leading-relaxed space-y-4 text-base font-medium">
-                            <p>
-                                I am an undergraduate in Electronics and Communication Engineering at <strong>SRM Institute</strong>, currently finishing a research expedition at <strong> National Tsing Hua University [NTHU], Taiwan</strong>.
-                            </p>
-                            <p>
-                                I have a solid background in Semiconductor Integration and a genuine interest in Machine Learning. I enjoy combining my electronics knowledge with code to solve real problems, whether it's simulating hardware or training efficient models.
-                            </p>
-                            <div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm font-bold font-mono">
-                                ! ENCOUNTER: Seeking Research & Engineering Internships (2025/26)
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- NEWS -->
-                <section id="news" class="scroll-mt-24 section-observe" data-aos="fade-up">
-                    <h2 class="text-sm font-retro text-pokeRed mb-8">02. NEWS FEED</h2>
-                    
-                    <div class="space-y-6">
-                        <!-- Featured Item -->
-                        <div class="bg-white border-2 border-pokeDark rounded-lg p-1 shadow-[4px_4px_0px_rgba(251,191,36,0.5)]">
-                            <div class="bg-yellow-50 border border-yellow-100 p-5 rounded">
-                                <div class="flex items-center gap-2 mb-3">
-                                    <i class="fas fa-crown text-pokeYellow text-xl"></i>
-                                    <span class="font-retro text-xs text-yellow-700">ACHIEVEMENT UNLOCKED!</span>
-                                </div>
-                                <h3 class="text-lg font-bold text-pokeDark mb-2">2nd Place @ IEEE ICASSP 2026 Grand Challenge</h3>
-                                <p class="text-gray-600 text-sm mb-3">
-                                    Secured Silver in the global XACLE Challenge. Co-developed <strong>EnsembleSVR-XACLE</strong>, creating a robust audio model resistant to domain shifts.
-                                </p>
-                                <a href="https://github.com/Snehitc/EnsembleSVR-XACLE" target="_blank" class="text-xs font-bold text-pokeRed hover:underline font-retro">
-                                    VIEW REPLAY (CODE) ->
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Standard Item -->
-                        <div class="flex items-center gap-4 bg-white p-4 border-2 border-gray-200 rounded hover:border-pokeDark transition-colors">
-                            <div class="bg-pokeBlue text-white w-12 h-12 flex items-center justify-center rounded border-2 border-pokeDark shadow-[2px_2px_0px_#000]">
-                                <i class="fas fa-flask"></i>
-                            </div>
-                            <div>
-                                <span class="text-[10px] font-retro text-gray-400">OCT 2025</span>
-                                <h3 class="font-bold text-pokeDark text-sm">Joined Lee Quantum Optics Lab</h3>
-                                <p class="text-gray-500 text-xs">Researching squeezed-state generation at NTHU.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- PROJECTS (Pokédex Style) -->
-                <section id="projects" class="scroll-mt-24 section-observe" data-aos="fade-up">
-                    <h2 class="text-sm font-retro text-pokeRed mb-10">03. POKÉDEX ENTRIES</h2>
-                    
-                    <div class="grid gap-8">
-
-                        <!-- Project 1 -->
-                        <div class="holo-card p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="text-[10px] font-mono text-gray-400">#001</span>
-                                    <h3 class="text-lg font-bold font-retro text-pokeDark mt-1">
-                                        <a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="hover:text-pokeRed">Temporal Causality Engine</a>
-                                    </h3>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class="type-badge type-code">PYTHON</span>
-                                    <span class="type-badge type-ai">AI</span>
-                                </div>
-                            </div>
-                            <div class="border-2 border-gray-100 bg-gray-50 p-4 rounded mb-4 text-sm text-gray-700 leading-relaxed font-medium">
-                                <p class="mb-2">A research-grade inference framework for discovering time-dependent causal structure in multivariate time-series data.</p>
-                                <p>The system applies rigorous statistical testing to infer causal graphs while explicitly preserving null results. Designed to serve as a reliable foundation for anomaly investigation.</p>
-                            </div>
-                            <a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-pokeRed transition-colors font-retro">
-                                <i class="fas fa-code"></i> CHECK DATA
-                            </a>
-                        </div>
-
-                        <!-- Project 2 -->
-                        <div class="holo-card p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="text-[10px] font-mono text-gray-400">#002</span>
-                                    <h3 class="text-lg font-bold font-retro text-pokeDark mt-1">
-                                        <a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="hover:text-pokeRed">RRAM Simulation (HfO₂)</a>
-                                    </h3>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class="type-badge type-tech">MATLAB</span>
-                                    <span class="type-badge type-fire">PHYSICS</span>
-                                </div>
-                            </div>
-                            <div class="border-2 border-gray-100 bg-gray-50 p-4 rounded mb-4 text-sm text-gray-700 leading-relaxed font-medium">
-                                <p class="mb-2">Quantitative modeling of Hafnium Dioxide-based non-volatile memory devices for neuromorphic computing.</p>
-                                <ul class="list-disc list-inside text-xs space-y-1 text-gray-600">
-                                    <li>Modeled filamentary switching dynamics.</li>
-                                    <li>Simulated I-V characteristics for HRS/LRS transitions.</li>
-                                    <li>Utilized SEMulator3D for device integration.</li>
-                                </ul>
-                            </div>
-                            <a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-pokeRed transition-colors font-retro">
-                                <i class="fas fa-code"></i> CHECK DATA
-                            </a>
-                        </div>
-
-                        <!-- Project 3 -->
-                        <div class="holo-card p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="text-[10px] font-mono text-gray-400">#003</span>
-                                    <h3 class="text-lg font-bold font-retro text-pokeDark mt-1">
-                                        <a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="hover:text-pokeRed">Optimized Object Tracking</a>
-                                    </h3>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class="type-badge type-tech">C++</span>
-                                    <span class="type-badge type-ai">OPENCV</span>
-                                </div>
-                            </div>
-                            <div class="border-2 border-gray-100 bg-gray-50 p-4 rounded mb-4 text-sm text-gray-700 leading-relaxed font-medium">
-                                <p class="mb-2">Real-time computer vision system optimized for low-latency tracking on edge devices.</p>
-                                <ul class="list-disc list-inside text-xs space-y-1 text-gray-600">
-                                    <li>Rewrote core tracking routines with cache-efficient matrix kernels.</li>
-                                    <li>Achieved real-time estimation of distance and angle.</li>
-                                </ul>
-                            </div>
-                            <a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-pokeRed transition-colors font-retro">
-                                <i class="fas fa-code"></i> CHECK DATA
-                            </a>
-                        </div>
-
-                        <!-- Project 4 -->
-                        <div class="holo-card p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <span class="text-[10px] font-mono text-gray-400">#004</span>
-                                    <h3 class="text-lg font-bold font-retro text-pokeDark mt-1">
-                                        Deep Thinking RAG
-                                    </h3>
-                                </div>
-                                <div class="flex gap-1">
-                                    <span class="type-badge type-ai">LLM</span>
-                                    <span class="type-badge type-grass">NLP</span>
-                                </div>
-                            </div>
-                            <div class="border-2 border-gray-100 bg-gray-50 p-4 rounded mb-4 text-sm text-gray-700 leading-relaxed font-medium">
-                                <p class="mb-2">Advanced Retrieval-Augmented Generation architecture focusing on reasoning and accuracy.</p>
-                                <p class="text-xs text-gray-600">Implemented iterative Chain-of-Thought (CoT) reasoning to verify context, significantly reducing hallucinations in domain-specific tasks.</p>
-                            </div>
-                        </div>
-                </section>
-
-                <!-- EXPERIENCE (Badge Timeline) -->
-                <section id="experience" class="scroll-mt-24 section-observe" data-aos="fade-up">
-                    <h2 class="text-sm font-retro text-pokeRed mb-10">04. ADVENTURE LOG</h2>
-                    
-                    <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
-
-                        <!-- Role 1 -->
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-slate-200 group-hover:bg-pokeRed transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                <i class="fas fa-medal text-slate-500 group-hover:text-white text-sm"></i>
-                            </div>
-                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-4 rounded border-2 border-slate-100 shadow-sm">
-                                <div class="flex justify-between items-start mb-1">
-                                    <span class="font-bold text-slate-900">Research Contributor</span>
-                                    <time class="font-mono text-xs text-slate-500">2025</time>
-                                </div>
-                                <div class="text-xs font-bold text-pokeRed mb-2">BIIC Lab, NTHU</div>
-                                <p class="text-slate-600 text-sm leading-snug">
-                                    Developed robust audio classification models for IEEE ICASSP 2026. Focused on domain-invariant feature extraction.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Role 2 -->
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-slate-200 group-hover:bg-pokeBlue transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                <i class="fas fa-atom text-slate-500 group-hover:text-white text-sm"></i>
-                            </div>
-                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-4 rounded border-2 border-slate-100 shadow-sm">
-                                <div class="flex justify-between items-start mb-1">
-                                    <span class="font-bold text-slate-900">Research Exposure</span>
-                                    <time class="font-mono text-xs text-slate-500">OCT 2025</time>
-                                </div>
-                                <div class="text-xs font-bold text-pokeBlue mb-2">Lee Quantum Optics Lab</div>
-                                <p class="text-slate-600 text-sm leading-snug">
-                                    Assisted in experimental setups for squeezed-state generation and literature synthesis.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Role 3 -->
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-slate-200 group-hover:bg-pokeYellow transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                <i class="fas fa-chart-line text-slate-500 group-hover:text-white text-sm"></i>
-                            </div>
-                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-4 rounded border-2 border-slate-100 shadow-sm">
-                                <div class="flex justify-between items-start mb-1">
-                                    <span class="font-bold text-slate-900">Data Analyst</span>
-                                    <time class="font-mono text-xs text-slate-500">SUMMER 2024</time>
-                                </div>
-                                <div class="text-xs font-bold text-pokeYellow mb-2">Razan & Co. / Freshyies</div>
-                                <p class="text-slate-600 text-sm leading-snug">
-                                    Designed Power BI dashboards to track real-time engagement KPIs and analyzed market data.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- EDUCATION -->
-                <section id="education" class="scroll-mt-24 section-observe" data-aos="fade-up">
-                    <h2 class="text-sm font-retro text-pokeRed mb-8">05. TRAINING GROUNDS</h2>
-                    
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded border-l-4 border-pokeRed shadow-sm">
-                            <h3 class="font-bold text-pokeDark">National Tsing Hua University</h3>
-                            <p class="text-xs text-gray-500 mb-2">SEMESTER ABROAD PROGRAM</p>
-                            <span class="inline-block bg-gray-100 px-2 py-1 rounded text-[10px] font-retro text-gray-600">TAIWAN, 2025</span>
-                        </div>
-
-                        <div class="bg-white p-6 rounded border-l-4 border-pokeBlue shadow-sm">
-                            <h3 class="font-bold text-pokeDark">SRM University</h3>
-                            <p class="text-xs text-gray-500 mb-2">B.TECH ELECTRONICS AND COMMUNICATION ENGINEERING</p>
-                            <span class="inline-block bg-gray-100 px-2 py-1 rounded text-[10px] font-retro text-gray-600">INDIA, 2022-26</span>
-                            <div class="mt-2 text-xs font-bold text-pokeBlue">GPA: 8.5/10</div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Footer -->
-                <footer class="pt-12 pb-6 text-center text-[10px] font-retro text-gray-400">
-                    <p>PRESS START TO CONNECT</p>
-                    <p class="mt-2">&copy; 2025 K MOHAMMED HAMZA.</p>
-                </footer>
-
-            </div>
-        </main>
+        <div class="widget-loc animate-float">
+            <i class="fas fa-map-marker-alt text-red-400"></i>
+            <span>CHENNAI, INDIA</span>
+            <span class="w-px h-3 bg-white/20 mx-2"></span>
+            <span class="text-emerald-400 text-[10px] font-mono tracking-wider">● ONLINE</span>
+        </div>
     </div>
 
-    <!-- Scroll Spy Script -->
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <h1 class="text-3xl font-bold text-white">K Mohammed Hamza</h1>
+        <p class="text-slate-400 mt-2">Electronics Engineer | ML Researcher</p>
+    </div>
+
+    <!-- Desktop Icons (Left Grid) -->
+    <div class="icon-grid hidden md:flex">
+        <div class="desktop-icon" onclick="openWindow('bio')">
+            <i class="fas fa-user-circle text-blue-400 icon-img"></i>
+            <span class="icon-label">About Me</span>
+        </div>
+        <div class="desktop-icon" onclick="openWindow('projects')">
+            <i class="fas fa-folder-open text-yellow-400 icon-img"></i>
+            <span class="icon-label">Projects</span>
+        </div>
+        <div class="desktop-icon" onclick="openWindow('experience')">
+            <i class="fas fa-briefcase text-emerald-400 icon-img"></i>
+            <span class="icon-label">Experience</span>
+        </div>
+        <div class="desktop-icon" onclick="openWindow('education')">
+            <i class="fas fa-graduation-cap text-purple-400 icon-img"></i>
+            <span class="icon-label">Education</span>
+        </div>
+    </div>
+
+    <!-- WINDOW: BIO -->
+    <div id="win-bio" class="window" style="width: 500px; height: 450px; top: 10%; left: 10%;">
+        <div class="window-header" onmousedown="dragMouseDown(event, 'win-bio')">
+            <div class="window-title"><i class="fas fa-user-circle text-blue-400"></i> About Me</div>
+            <div class="window-controls">
+                <div class="control-btn btn-close" onclick="closeWindow('bio')"></div>
+                <div class="control-btn btn-min" onclick="minimizeWindow('bio')"></div>
+                <div class="control-btn btn-max"></div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="flex items-center gap-5 mb-6">
+                <!-- Replaced KH with a generic neat avatar or image placeholder -->
+                <div class="w-16 h-16 rounded-xl bg-slate-700/50 border border-slate-600 overflow-hidden shadow-lg flex items-center justify-center">
+                    <i class="fas fa-user text-3xl text-slate-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white">K Mohammed Hamza</h1>
+                    <p class="text-sm text-slate-400">B.Tech Electronics & Comm. Engineering</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4 text-slate-300">
+                <p>
+                    I am an <strong>Electronics and Communication Engineering</strong> undergraduate at <strong>SRM Institute</strong>, currently completing a semester abroad at <strong>National Tsing Hua University (NTHU), Taiwan</strong>.
+                </p>
+                <p>
+                    I am a problem-solver at heart, passionate about building efficient, scalable systems. My experience spans from data analysis and machine learning to hardware simulations. I thrive in environments where I can apply technical rigor to real-world challenges, constantly learning and adapting to new technologies.
+                </p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-white/10 flex gap-4">
+                <a href="Resume.pdf" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                    <i class="fas fa-file-arrow-down mr-2"></i>Download Resume
+                </a>
+                <div class="text-xs text-green-400 flex items-center gap-2 bg-green-400/10 px-3 py-2 rounded-lg border border-green-400/20">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Open to Internships
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW: PROJECTS -->
+    <div id="win-projects" class="window" style="width: 700px; height: 550px; top: 15%; left: 30%;">
+        <div class="window-header" onmousedown="dragMouseDown(event, 'win-projects')">
+            <div class="window-title"><i class="fas fa-code text-yellow-400"></i> Selected Projects</div>
+            <div class="window-controls">
+                <div class="control-btn btn-close" onclick="closeWindow('projects')"></div>
+                <div class="control-btn btn-min" onclick="minimizeWindow('projects')"></div>
+                <div class="control-btn btn-max"></div>
+            </div>
+        </div>
+        <div class="window-content bg-slate-900/50">
+            <div class="space-y-4">
+                
+                <!-- P1 -->
+                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="hover:text-blue-400">Temporal Causality Engine</a></h3>
+                        <div class="flex gap-2"><span class="tag">Python</span><span class="tag">Causal AI</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">Research-grade inference framework for discovering time-dependent causal structure.</p>
+                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
+                        <li>Applies rigorous statistical testing (stationarity checks, conditional independence).</li>
+                        <li>Infers causal graphs while explicitly preserving null results.</li>
+                    </ul>
+                </div>
+
+                <!-- P2 -->
+                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="hover:text-blue-400">HfO₂ RRAM Simulation</a></h3>
+                        <div class="flex gap-2"><span class="tag">MATLAB</span><span class="tag">SEMulator3D</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">Quantitative modeling of Hafnium Dioxide-based non-volatile memory devices.</p>
+                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
+                        <li>Modeled filamentary switching dynamics using physical parameters.</li>
+                        <li>Simulated I-V characteristics for HRS/LRS transitions using SEMulator3D logic.</li>
+                    </ul>
+                </div>
+
+                <!-- P3 -->
+                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="hover:text-blue-400">Optimized Object Tracking</a></h3>
+                        <div class="flex gap-2"><span class="tag">C++</span><span class="tag">OpenCV</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">Real-time computer vision system optimized for edge tracking.</p>
+                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
+                        <li>Rewrote tracking routines with cache-efficient matrix kernels.</li>
+                        <li>Achieved real-time estimation of distance and angle.</li>
+                    </ul>
+                </div>
+
+                <!-- P4 -->
+                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold text-white">Deep Thinking RAG</h3>
+                        <div class="flex gap-2"><span class="tag">LLMs</span><span class="tag">NLP</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-3">Advanced RAG architecture focusing on reasoning accuracy.</p>
+                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
+                        <li>Implemented iterative Chain-of-Thought (CoT) reasoning.</li>
+                        <li>Significantly reduced factual hallucinations in domain tasks.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW: EXPERIENCE -->
+    <div id="win-experience" class="window" style="width: 550px; height: 500px; top: 12%; left: 40%;">
+        <div class="window-header" onmousedown="dragMouseDown(event, 'win-experience')">
+            <div class="window-title"><i class="fas fa-history text-emerald-400"></i> Experience Log</div>
+            <div class="window-controls">
+                <div class="control-btn btn-close" onclick="closeWindow('experience')"></div>
+                <div class="control-btn btn-min" onclick="minimizeWindow('experience')"></div>
+                <div class="control-btn btn-max"></div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="space-y-8 pl-4 border-l border-slate-700 ml-2">
+                
+                <div class="relative pl-6">
+                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_10px_#eab308]"></div>
+                    <span class="date">Upcoming 2026</span>
+                    <h3 class="text-white text-lg font-semibold">2nd Place Global Winner</h3>
+                    <div class="text-xs text-yellow-500 font-mono mb-2">IEEE ICASSP 2026 (XACLE Challenge)</div>
+                    <p class="text-sm text-slate-400">Co-developed <strong>EnsembleSVR-XACLE</strong>, a robust audio classification model focusing on domain-invariant feature extraction to improve localization accuracy.</p>
+                </div>
+
+                <div class="relative pl-6">
+                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    <span class="date">Oct 2025</span>
+                    <h3 class="text-white font-semibold">Research Exposure</h3>
+                    <div class="text-xs text-blue-400 font-mono mb-2">Lee Quantum Optics Lab, NTHU</div>
+                    <p class="text-sm text-slate-400">Assisted in experimental setups for squeezed-state generation and synthesized quantum state tomography literature.</p>
+                </div>
+
+                <div class="relative pl-6">
+                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    <span class="date">Summer 2024</span>
+                    <h3 class="text-white font-semibold">Data Analyst</h3>
+                    <div class="text-xs text-blue-400 font-mono mb-2">Razan & Co. / Freshyies</div>
+                    <p class="text-sm text-slate-400">Designed executive Power BI dashboards. Translated data into narratives for strategy meetings.</p>
+                </div>
+
+                <div class="relative pl-6">
+                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    <span class="date">Spring 2023</span>
+                    <h3 class="text-white font-semibold">Data Science Intern</h3>
+                    <div class="text-xs text-blue-400 font-mono mb-2">Prodigy InfoTech</div>
+                    <p class="text-sm text-slate-400">Built predictive models using Scikit-Learn. Automated EDA pipelines to reduce data cleaning time by 25%.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- WINDOW: EDUCATION -->
+    <div id="win-education" class="window" style="width: 400px; height: 320px; top: 25%; left: 50%;">
+        <div class="window-header" onmousedown="dragMouseDown(event, 'win-education')">
+            <div class="window-title"><i class="fas fa-graduation-cap text-purple-400"></i> Education</div>
+            <div class="window-controls">
+                <div class="control-btn btn-close" onclick="closeWindow('education')"></div>
+                <div class="control-btn btn-min" onclick="minimizeWindow('education')"></div>
+                <div class="control-btn btn-max"></div>
+            </div>
+        </div>
+        <div class="window-content space-y-6">
+            
+            <div class="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                <span class="date">2025</span>
+                <h3 class="font-bold text-white">National Tsing Hua University</h3>
+                <p class="text-xs text-slate-400 uppercase tracking-wide">Semester Abroad Program</p>
+                <div class="mt-2 text-xs font-mono text-blue-400">TAIWAN</div>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+                <span class="date">2022 - 2026</span>
+                <h3 class="font-bold text-white">SRM Institute</h3>
+                <p class="text-xs text-slate-400 uppercase tracking-wide">B.Tech Electronics & Comm.</p>
+                <div class="mt-2 flex justify-between text-xs">
+                    <span class="font-mono text-blue-400">INDIA</span>
+                    <span class="font-bold text-emerald-400">GPA: 8.5/10</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WINDOW: CONTACT -->
+    <div id="win-contact" class="window" style="width: 400px; height: 280px; top: 30%; left: 30%;">
+        <div class="window-header" onmousedown="dragMouseDown(event, 'win-contact')">
+            <div class="window-title"><i class="fas fa-envelope text-pink-400"></i> Contact</div>
+            <div class="window-controls">
+                <div class="control-btn btn-close" onclick="closeWindow('contact')"></div>
+                <div class="control-btn btn-min" onclick="minimizeWindow('contact')"></div>
+                <div class="control-btn btn-max"></div>
+            </div>
+        </div>
+        <div class="window-content flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-slate-900 to-slate-800">
+            <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center mb-4">
+                <i class="fas fa-paper-plane text-2xl text-blue-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Let's Connect</h3>
+            <p class="text-sm text-slate-400 mb-6 px-4">
+                I'm currently looking for internships for 2025/2026.
+            </p>
+            <div class="w-full bg-slate-950 p-3 rounded-lg border border-slate-700 flex items-center justify-between group cursor-pointer hover:border-blue-500 transition-colors" onclick="navigator.clipboard.writeText('hk1583@srmist.edu.in'); alert('Email copied!')">
+                <span class="text-sm font-mono text-slate-300">hk1583@srmist.edu.in</span>
+                <i class="fas fa-copy text-slate-500 group-hover:text-white transition-colors"></i>
+            </div>
+            <a href="mailto:hk1583@srmist.edu.in" class="mt-4 text-xs text-blue-400 hover:text-blue-300 hover:underline">Open Mail Client &rarr;</a>
+        </div>
+    </div>
+
+    <!-- DOCK / TASKBAR -->
+    <div id="dock-container">
+        <div id="dock">
+            <div class="dock-item" onclick="openWindow('bio')" title="About Me">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="dock-item" onclick="openWindow('projects')" title="Projects">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="dock-item" onclick="openWindow('experience')" title="Experience">
+                <i class="fas fa-history"></i>
+            </div>
+            <div class="dock-item" onclick="openWindow('education')" title="Education">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="dock-item" onclick="openWindow('contact')" title="Contact">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="dock-separator"></div>
+            <a href="Resume.pdf" target="_blank" class="dock-item" style="color: #f87171;" title="Download Resume">
+                <i class="fas fa-file-pdf"></i>
+            </a>
+            <a href="https://github.com/Hmzaah" target="_blank" class="dock-item" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/hamza-451672259" target="_blank" class="dock-item" style="color: #60a5fa;" title="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- JS LOGIC -->
     <script>
-        AOS.init({ duration: 800, once: true, offset: 50 });
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+            
+            if(document.getElementById('clock')) {
+                document.getElementById('clock').innerText = timeString;
+                document.getElementById('date').innerText = dateString;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.section-observe');
-            const navLinks = document.querySelectorAll('.nav-link');
+        // Window Management
+        let zIndex = 100;
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        navLinks.forEach(link => {
-                            link.classList.remove('text-pokeRed'); // Reset
-                            if (link.getAttribute('href') === `#${id}`) {
-                                link.classList.add('text-pokeRed');
-                            }
-                        });
-                    }
-                });
-            }, { threshold: 0.3 });
+        function openWindow(id) {
+            const win = document.getElementById('win-' + id);
+            if (win.classList.contains('active') && !win.classList.contains('minimized')) {
+                // Bring to front even if active
+                zIndex++;
+                win.style.zIndex = zIndex;
+                return;
+            }
+            
+            win.classList.remove('minimized');
+            win.classList.add('active');
+            zIndex++;
+            win.style.zIndex = zIndex;
+        }
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        });
+        function closeWindow(id) {
+            const win = document.getElementById('win-' + id);
+            win.classList.remove('active');
+            setTimeout(() => win.classList.remove('minimized'), 200);
+        }
+
+        function minimizeWindow(id) {
+            const win = document.getElementById('win-' + id);
+            win.classList.add('minimized');
+            win.classList.remove('active');
+        }
+
+        // Draggable Logic
+        function dragMouseDown(e, id) {
+            e = e || window.event;
+            // Prevent drag when clicking controls
+            if(e.target.closest('.window-controls')) return;
+            
+            e.preventDefault();
+            const elmnt = document.getElementById(id);
+            
+            zIndex++;
+            elmnt.style.zIndex = zIndex;
+
+            let pos3 = e.clientX;
+            let pos4 = e.clientY;
+
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                let pos1 = pos3 - e.clientX;
+                let pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Auto-open Bio on desktop load
+        window.onload = () => {
+            if (window.innerWidth > 768) {
+                setTimeout(() => openWindow('bio'), 300);
+            }
+        }
     </script>
 </body>
-</html>   
+</html>
