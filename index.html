@@ -141,9 +141,9 @@
         /* Mac-style traffic lights */
         .window-controls { display: flex; gap: 8px; }
         .control-btn { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; position: relative; }
-        .btn-close { background: #ff5f57; border: 1px solid #e0443e; }
-        .btn-min { background: #ffbd2e; border: 1px solid #dea123; }
-        .btn-max { background: #27c93f; border: 1px solid #1aab29; }
+        .btn-close { background: #ff5f57; }
+        .btn-min { background: #ffbd2e; }
+        .btn-max { background: #28c840; }
         .control-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
 
         .window-content {
@@ -200,6 +200,12 @@
         
         .dock-separator { width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 12px 4px; }
 
+        /* Typography Utilities */
+        h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; color: white; }
+        h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: white; }
+        .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; background: rgba(56, 189, 248, 0.1); color: #7dd3fc; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2); }
+        .date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; }
+
         /* Mobile */
         @media (max-width: 768px) {
             body { overflow-y: auto; background: #0f172a; }
@@ -231,6 +237,9 @@
         <div class="widget-time" id="clock">00:00</div>
         <div class="widget-date" id="date">LOADING...</div>
         
+        <h1 class="text-3xl font-bold text-white tracking-tight mt-8 mb-2">HAMZA'S PORTFOLIO</h1>
+        <p class="font-mono text-xs text-os-muted tracking-widest uppercase">Electronics Engineer | ML Researcher</p>
+
         <div class="widget-loc animate-float">
             <i class="fas fa-map-marker-alt text-red-400"></i>
             <span>CHENNAI, INDIA</span>
@@ -263,6 +272,10 @@
             <i class="fas fa-graduation-cap text-purple-400 icon-img"></i>
             <span class="icon-label">Education</span>
         </div>
+        <div class="desktop-icon" onclick="openWindow('contact')">
+            <i class="fas fa-envelope text-pink-400 icon-img"></i>
+            <span class="icon-label">Contact</span>
+        </div>
     </div>
 
     <!-- WINDOW: BIO -->
@@ -289,10 +302,10 @@
             
             <div class="space-y-4 text-slate-300">
                 <p>
-                    I am an <strong>Electronics and Communication Engineering</strong> undergraduate at <strong>SRM Institute</strong>, currently completing a semester abroad at <strong>National Tsing Hua University (NTHU), Taiwan</strong>.
+                    I am an undergraduate in Electronics and Communication Engineering at <strong>SRM Institute</strong>, currently finishing a research expedition at <strong>National Tsing Hua University (NTHU), Taiwan</strong>.
                 </p>
                 <p>
-                    I am a problem-solver at heart, passionate about building efficient, scalable systems. My experience spans from data analysis and machine learning to hardware simulations. I thrive in environments where I can apply technical rigor to real-world challenges, constantly learning and adapting to new technologies.
+                    I combine a solid background in Semiconductor Integration with a passion for Machine Learning. I enjoy bridging the gap between hardware concepts and intelligent code—whether it's simulating memristive devices or optimizing computer vision algorithms for edge deployment.
                 </p>
             </div>
 
@@ -362,7 +375,7 @@
                 <!-- P4 -->
                 <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-semibold text-white">Deep Thinking RAG</h3>
+                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/My-Agent" target="_blank" class="hover:text-blue-400">Deep Thinking RAG</a></h3>
                         <div class="flex gap-2"><span class="tag">LLMs</span><span class="tag">NLP</span></div>
                     </div>
                     <p class="text-sm text-slate-400 mb-3">Advanced RAG architecture focusing on reasoning accuracy.</p>
