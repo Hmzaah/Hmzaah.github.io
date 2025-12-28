@@ -6,7 +6,7 @@
     <title>Hamza's Engineering Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -19,7 +19,7 @@
                     colors: {
                         os: {
                             bg: '#0f172a',        // Slate 900
-                            window: 'rgba(30, 41, 59, 0.95)', // Glassy Slate (Higher opacity for readability)
+                            window: 'rgba(30, 41, 59, 0.98)', // Glassy Slate (Higher opacity)
                             border: 'rgba(255, 255, 255, 0.1)',
                             accent: '#38bdf8',    // Sky Blue
                             text: '#f1f5f9',      // Slate 100
@@ -31,6 +31,7 @@
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -61,25 +62,33 @@
             pointer-events: none;
         }
 
-        /* Centerpiece Widget */
+        /* Centerpiece Widget - Centered & Fixed Alignment */
         .center-widget {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             pointer-events: none;
             z-index: 1;
-            display: flex; flex-direction: column; align-items: center;
+            width: 100%;
         }
-        .widget-time { font-size: 64px; font-weight: 200; letter-spacing: -2px; color: rgba(255,255,255,0.9); line-height: 1; }
-        .widget-date { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
+        .widget-time { font-size: 72px; font-weight: 200; letter-spacing: -2px; color: rgba(255,255,255,0.9); line-height: 1; }
+        .widget-date { font-size: 16px; color: rgba(255,255,255,0.5); font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-top: 12px; }
+        .widget-name { margin-top: 40px; font-size: 24px; font-weight: 600; letter-spacing: 1px; color: white; opacity: 0.9; }
+        .widget-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
         .widget-loc { 
             margin-top: 24px; 
             display: inline-flex; align-items: center; gap: 8px;
             background: rgba(255,255,255,0.05); 
-            padding: 8px 16px; 
-            border-radius: 20px;
+            padding: 8px 20px; 
+            border-radius: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
-            font-size: 12px; color: rgba(255,255,255,0.7);
+            font-size: 12px; color: white;
         }
 
         /* Desktop Icons */
@@ -89,9 +98,9 @@
             z-index: 10;
         }
         .desktop-icon {
-            width: 90px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+            width: 84px; display: flex; flex-direction: column; align-items: center; gap: 8px;
             cursor: pointer; transition: all 0.2s;
-            border-radius: 8px; padding: 10px;
+            border-radius: 12px; padding: 10px;
         }
         .desktop-icon:hover { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px); }
         .desktop-icon:active { transform: scale(0.95); }
@@ -112,12 +121,12 @@
         /* Glass Windows */
         .window {
             position: absolute;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15, 23, 42, 0.98); 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
             display: flex; flex-direction: column;
             min-width: 320px;
             opacity: 0; transform: scale(0.95);
@@ -141,9 +150,9 @@
         /* Mac-style traffic lights */
         .window-controls { display: flex; gap: 8px; }
         .control-btn { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; position: relative; }
-        .btn-close { background: #ff5f57; }
-        .btn-min { background: #ffbd2e; }
-        .btn-max { background: #28c840; }
+        .btn-close { background: #ff5f57; border: 1px solid rgba(0,0,0,0.1); }
+        .btn-min { background: #febc2e; border: 1px solid rgba(0,0,0,0.1); }
+        .btn-max { background: #28c840; border: 1px solid rgba(0,0,0,0.1); }
         .control-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
 
         .window-content {
@@ -198,12 +207,52 @@
             box-shadow: 0 0 8px #38bdf8;
         }
         
-        .dock-separator { width: 1px; height: 24px; background: rgba(255,255,255,0.1); margin: 12px 4px; }
+        .dock-separator { width: 1px; height: 32px; background: rgba(255,255,255,0.1); margin: 12px 4px; }
+
+        /* Project Entry - IMPROVED */
+        .project-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px; 
+            border-radius: 12px; 
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: rgba(56, 189, 248, 0.5);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .project-card:hover { 
+            background: rgba(30, 41, 59, 0.6); 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.1);
+        }
+        .project-card:hover::before { opacity: 1; }
+
+        .tag { 
+            font-family: 'JetBrains Mono'; 
+            font-size: 10px; 
+            padding: 4px 8px; 
+            background: rgba(56, 189, 248, 0.1); 
+            color: #38bdf8; 
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 4px; 
+            font-weight: 500; 
+        }
 
         /* Typography Utilities */
         h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; color: white; }
         h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: white; }
-        .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; background: rgba(56, 189, 248, 0.1); color: #7dd3fc; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2); }
         .date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; }
 
         /* Mobile */
@@ -211,9 +260,8 @@
             body { overflow-y: auto; background: #0f172a; }
             #wallpaper, #grid-overlay, .center-widget, #dock-container, .icon-grid { display: none; }
             .window { 
-                position: relative !important; top: 0 !important; left: 0 !important; 
-                width: 100% !important; min-width: 0 !important; height: auto !important; 
-                transform: none !important; opacity: 1 !important;
+                position: relative !important; width: 100% !important; height: auto !important; 
+                top: 0 !important; left: 0 !important; transform: none !important; opacity: 1 !important;
                 border: none; border-bottom: 1px solid rgba(255,255,255,0.1);
                 border-radius: 0; box-shadow: none; margin-bottom: 20px;
                 background: transparent;
@@ -228,60 +276,55 @@
 </head>
 <body>
 
-    <!-- Wallpapers -->
     <div id="wallpaper"></div>
     <div id="grid-overlay"></div>
 
-    <!-- Centerpiece Widget -->
+    <!-- Center Widget -->
     <div class="center-widget hidden md:flex">
         <div class="widget-time" id="clock">00:00</div>
         <div class="widget-date" id="date">LOADING...</div>
         
-        <h1 class="text-3xl font-bold text-white tracking-tight mt-8 mb-2">HAMZA'S PORTFOLIO</h1>
-        <p class="font-mono text-xs text-os-muted tracking-widest uppercase">Electronics Engineer | ML Researcher</p>
+        <div class="widget-name">K MOHAMMED HAMZA</div>
+        <div class="widget-sub">ENGINEERING PORTFOLIO</div>
 
         <div class="widget-loc animate-float">
-            <i class="fas fa-map-marker-alt text-red-400"></i>
+            <i class="fas fa-map-marker-alt text-red-500"></i>
             <span>CHENNAI, INDIA</span>
             <span class="w-px h-3 bg-white/20 mx-2"></span>
-            <span class="text-emerald-400 text-[10px] font-mono tracking-wider">● ONLINE</span>
+            <span class="text-emerald-400 text-[10px] font-mono tracking-widest">● LIVE_STABLE</span>
         </div>
     </div>
 
-    <!-- Mobile Header -->
+    <!-- Mobile Hero -->
     <div class="mobile-header">
-        <h1 class="text-3xl font-bold text-white">K Mohammed Hamza</h1>
-        <p class="text-slate-400 mt-2">Electronics Engineer | ML Researcher</p>
+        <h1 class="text-3xl font-bold text-white">Hamza</h1>
+        <p class="text-sky-400 font-mono text-sm mt-1 uppercase tracking-widest">Engineering Portfolio</p>
     </div>
 
     <!-- Desktop Icons (Left Grid) -->
     <div class="icon-grid hidden md:flex">
         <div class="desktop-icon" onclick="openWindow('bio')">
-            <i class="fas fa-user-circle text-blue-400 icon-img"></i>
-            <span class="icon-label">About Me</span>
+            <div class="icon-img text-blue-400"><i class="fas fa-user-circle"></i></div>
+            <span class="icon-label">About_Me.txt</span>
         </div>
         <div class="desktop-icon" onclick="openWindow('projects')">
-            <i class="fas fa-folder-open text-yellow-400 icon-img"></i>
-            <span class="icon-label">Projects</span>
+            <div class="icon-img text-yellow-400"><i class="fas fa-folder-open"></i></div>
+            <span class="icon-label">Projects.exe</span>
         </div>
         <div class="desktop-icon" onclick="openWindow('experience')">
-            <i class="fas fa-briefcase text-emerald-400 icon-img"></i>
-            <span class="icon-label">Experience</span>
+            <div class="icon-img text-emerald-400"><i class="fas fa-history"></i></div>
+            <span class="icon-label">Exp_Log.db</span>
         </div>
         <div class="desktop-icon" onclick="openWindow('education')">
-            <i class="fas fa-graduation-cap text-purple-400 icon-img"></i>
-            <span class="icon-label">Education</span>
-        </div>
-        <div class="desktop-icon" onclick="openWindow('contact')">
-            <i class="fas fa-envelope text-pink-400 icon-img"></i>
-            <span class="icon-label">Contact</span>
+            <div class="icon-img text-purple-400"><i class="fas fa-graduation-cap"></i></div>
+            <span class="icon-label">Academy.sys</span>
         </div>
     </div>
 
     <!-- WINDOW: BIO -->
-    <div id="win-bio" class="window" style="width: 500px; height: 450px; top: 10%; left: 10%;">
+    <div id="win-bio" class="window" style="width: 500px; height: 460px; top: 10%; left: 10%;">
         <div class="window-header" onmousedown="dragMouseDown(event, 'win-bio')">
-            <div class="window-title"><i class="fas fa-user-circle text-blue-400"></i> About Me</div>
+            <div class="window-title"><i class="fas fa-file-lines text-blue-400"></i> About_Me.txt</div>
             <div class="window-controls">
                 <div class="control-btn btn-close" onclick="closeWindow('bio')"></div>
                 <div class="control-btn btn-min" onclick="minimizeWindow('bio')"></div>
@@ -290,40 +333,36 @@
         </div>
         <div class="window-content">
             <div class="flex items-center gap-5 mb-6">
-                <!-- Replaced KH with a generic neat avatar or image placeholder -->
-                <div class="w-16 h-16 rounded-xl bg-slate-700/50 border border-slate-600 overflow-hidden shadow-lg flex items-center justify-center">
-                    <i class="fas fa-user text-3xl text-slate-400"></i>
+                <div class="w-16 h-16 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700 shadow-xl overflow-hidden shrink-0">
+                    <i class="fas fa-user text-3xl text-sky-400"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-white">K Mohammed Hamza</h1>
-                    <p class="text-sm text-slate-400">B.Tech Electronics & Comm. Engineering</p>
+                    <h1 class="!text-xl !mb-1 font-bold text-white">K Mohammed Hamza</h1>
+                    <p class="text-xs font-mono text-sky-400 m-0">Electronics & Communication Engineering</p>
                 </div>
             </div>
             
-            <div class="space-y-4 text-slate-300">
+            <div class="space-y-4 text-slate-300 text-[14px] leading-relaxed">
                 <p>
-                    I am an undergraduate in Electronics and Communication Engineering at <strong>SRM Institute</strong>, currently finishing a research expedition at <strong>National Tsing Hua University (NTHU), Taiwan</strong>.
+                    I am an <strong>Electronics and Communication Engineering</strong> undergraduate at <strong>SRM Institute</strong>, currently completing a research expedition at <strong>National Tsing Hua University (NTHU), Taiwan</strong>.
                 </p>
                 <p>
-                    I combine a solid background in Semiconductor Integration with a passion for Machine Learning. I enjoy bridging the gap between hardware concepts and intelligent code—whether it's simulating memristive devices or optimizing computer vision algorithms for edge deployment.
+                    I am a problem-solver at heart, passionate about building efficient, scalable systems. My experience ranges from data analysis and machine learning to hardware simulations. I thrive in environments where I can apply technical rigor to real-world challenges, constantly learning and adapting to new technologies.
                 </p>
             </div>
 
             <div class="mt-8 pt-6 border-t border-white/10 flex gap-4">
-                <a href="Resume.pdf" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors shadow-lg shadow-blue-500/20">
-                    <i class="fas fa-file-arrow-down mr-2"></i>Download Resume
+                <a href="Resume.pdf" target="_blank" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg transition shadow-lg shadow-sky-500/20 flex items-center gap-2">
+                    <i class="fas fa-file-arrow-down"></i> DOWNLOAD RESUME
                 </a>
-                <div class="text-xs text-green-400 flex items-center gap-2 bg-green-400/10 px-3 py-2 rounded-lg border border-green-400/20">
-                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Open to Internships
-                </div>
             </div>
         </div>
     </div>
 
     <!-- WINDOW: PROJECTS -->
-    <div id="win-projects" class="window" style="width: 700px; height: 550px; top: 15%; left: 30%;">
+    <div id="win-projects" class="window" style="width: 780px; height: 600px; top: 10%; left: 25%;">
         <div class="window-header" onmousedown="dragMouseDown(event, 'win-projects')">
-            <div class="window-title"><i class="fas fa-code text-yellow-400"></i> Selected Projects</div>
+            <div class="window-title"><i class="fas fa-terminal text-yellow-400"></i> Projects.exe</div>
             <div class="window-controls">
                 <div class="control-btn btn-close" onclick="closeWindow('projects')"></div>
                 <div class="control-btn btn-min" onclick="minimizeWindow('projects')"></div>
@@ -331,58 +370,86 @@
             </div>
         </div>
         <div class="window-content bg-slate-900/50">
-            <div class="space-y-4">
+            <div class="grid gap-6">
                 
-                <!-- P1 -->
-                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="hover:text-blue-400">Temporal Causality Engine</a></h3>
-                        <div class="flex gap-2"><span class="tag">Python</span><span class="tag">Causal AI</span></div>
+                <!-- Deep Thinking RAG -->
+                <div class="project-card">
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <h3 class="text-white font-bold text-lg"><a href="https://github.com/Hmzaah/My-Agent" target="_blank" class="hover:text-sky-400 transition-colors">Deep Thinking RAG Agent</a></h3>
+                        <div class="flex gap-2"><span class="tag">LLM</span><span class="tag">AI</span></div>
                     </div>
-                    <p class="text-sm text-slate-400 mb-3">Research-grade inference framework for discovering time-dependent causal structure.</p>
-                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
-                        <li>Applies rigorous statistical testing (stationarity checks, conditional independence).</li>
-                        <li>Infers causal graphs while explicitly preserving null results.</li>
+                    <p class="text-sm text-slate-400 mb-4">Advanced RAG architecture focusing on reasoning accuracy and factual grounding.</p>
+                    <ul class="text-xs space-y-2 text-slate-500 list-disc list-inside mb-4 pl-1">
+                        <li>Implemented iterative Chain-of-Thought (CoT) reasoning.</li>
+                        <li>Reduced factual hallucinations in domain-specific retrieval tasks.</li>
                     </ul>
+                    <a href="https://github.com/Hmzaah/My-Agent" target="_blank" class="inline-flex items-center text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wider">
+                        <i class="fas fa-code mr-2"></i> Source Code
+                    </a>
                 </div>
 
-                <!-- P2 -->
-                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="hover:text-blue-400">HfO₂ RRAM Simulation</a></h3>
-                        <div class="flex gap-2"><span class="tag">MATLAB</span><span class="tag">SEMulator3D</span></div>
+                <!-- XACLE Approach 2 -->
+                <div class="project-card">
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <h3 class="text-white font-bold text-lg"><a href="https://github.com/Hmzaah/XACLE-Approach2-" target="_blank" class="hover:text-sky-400 transition-colors">XACLE - Approach 2</a></h3>
+                        <div class="flex gap-2"><span class="tag">Python</span><span class="tag">Audio</span></div>
                     </div>
-                    <p class="text-sm text-slate-400 mb-3">Quantitative modeling of Hafnium Dioxide-based non-volatile memory devices.</p>
-                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
+                    <p class="text-sm text-slate-400 mb-4">Secondary architecture for the IEEE ICASSP 2026 challenge focusing on audio feature fusion.</p>
+                    <ul class="text-xs space-y-2 text-slate-500 list-disc list-inside mb-4 pl-1">
+                        <li>Explored alternative fusion techniques to handle extreme device variability.</li>
+                        <li>Documents experimental logic and performance trade-offs.</li>
+                    </ul>
+                    <a href="https://github.com/Hmzaah/XACLE-Approach2-" target="_blank" class="inline-flex items-center text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wider">
+                        <i class="fas fa-book mr-2"></i> Documentation
+                    </a>
+                </div>
+
+                <!-- Temporal Causality -->
+                <div class="project-card">
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <h3 class="text-white font-bold text-lg"><a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="hover:text-sky-400 transition-colors">Temporal Causality Engine</a></h3>
+                        <div class="flex gap-2"><span class="tag">Python</span><span class="tag">Causal AI</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-4">Research-grade inference framework for discovering causal structures in time-series data.</p>
+                    <ul class="text-xs space-y-2 text-slate-500 list-disc list-inside mb-4 pl-1">
+                        <li>Applies stationarity checks and conditional independence testing.</li>
+                        <li>Infers causal graphs while preserving null results for transparency.</li>
+                    </ul>
+                    <a href="https://github.com/Hmzaah/Temporal-Causality-engine" target="_blank" class="inline-flex items-center text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wider">
+                        <i class="fas fa-code mr-2"></i> Source Code
+                    </a>
+                </div>
+
+                 <!-- Optimized Tracking -->
+                <div class="project-card">
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <h3 class="text-white font-bold text-lg"><a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="hover:text-sky-400 transition-colors">Optimized Object Tracking</a></h3>
+                        <div class="flex gap-2"><span class="tag">C++</span><span class="tag">OpenCV</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-4">Real-time computer vision system optimized for edge tracking.</p>
+                    <ul class="text-xs space-y-2 text-slate-500 list-disc list-inside mb-4 pl-1">
+                        <li>Rewrote tracking routines with cache-efficient matrix kernels.</li>
+                        <li>Achieved real-time estimation of distance/angle.</li>
+                    </ul>
+                     <a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="inline-flex items-center text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wider">
+                        <i class="fas fa-code mr-2"></i> Source Code
+                    </a>
+                </div>
+
+                 <!-- RRAM Simulation -->
+                 <div class="project-card">
+                    <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                        <h3 class="text-white font-bold text-lg"><a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="hover:text-sky-400 transition-colors">HfO₂ RRAM Simulation</a></h3>
+                        <div class="flex gap-2"><span class="tag">MATLAB</span><span class="tag">Physics</span></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-4">Quantitative modeling of Hafnium Dioxide-based non-volatile memory devices.</p>
+                    <ul class="text-xs space-y-2 text-slate-500 list-disc list-inside mb-4 pl-1">
                         <li>Modeled filamentary switching dynamics using physical parameters.</li>
                         <li>Simulated I-V characteristics for HRS/LRS transitions using SEMulator3D logic.</li>
                     </ul>
-                </div>
-
-                <!-- P3 -->
-                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/object-tracking-with-angle-and-distance" target="_blank" class="hover:text-blue-400">Optimized Object Tracking</a></h3>
-                        <div class="flex gap-2"><span class="tag">C++</span><span class="tag">OpenCV</span></div>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-3">Real-time computer vision system optimized for edge tracking.</p>
-                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
-                        <li>Rewrote tracking routines with cache-efficient matrix kernels.</li>
-                        <li>Achieved real-time estimation of distance and angle.</li>
-                    </ul>
-                </div>
-
-                <!-- P4 -->
-                <div class="bg-slate-800/40 border border-white/5 p-5 rounded-xl hover:border-blue-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-semibold text-white"><a href="https://github.com/Hmzaah/My-Agent" target="_blank" class="hover:text-blue-400">Deep Thinking RAG</a></h3>
-                        <div class="flex gap-2"><span class="tag">LLMs</span><span class="tag">NLP</span></div>
-                    </div>
-                    <p class="text-sm text-slate-400 mb-3">Advanced RAG architecture focusing on reasoning accuracy.</p>
-                    <ul class="list-disc list-inside text-xs text-slate-500 space-y-1 pl-1">
-                        <li>Implemented iterative Chain-of-Thought (CoT) reasoning.</li>
-                        <li>Significantly reduced factual hallucinations in domain tasks.</li>
-                    </ul>
+                     <a href="https://github.com/Hmzaah/HfO2-RRAM-Resistive-Switching-Model" target="_blank" class="inline-flex items-center text-xs font-bold text-sky-400 hover:text-sky-300 transition-colors uppercase tracking-wider">
+                        <i class="fas fa-code mr-2"></i> Source Code
+                    </a>
                 </div>
 
             </div>
@@ -403,45 +470,45 @@
             <div class="space-y-8 pl-4 border-l border-slate-700 ml-2">
                 
                 <div class="relative pl-6">
-                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-[0_0_10px_#eab308]"></div>
-                    <span class="date">Upcoming 2026</span>
-                    <h3 class="text-white text-lg font-semibold">2nd Place Global Winner</h3>
-                    <div class="text-xs text-yellow-500 font-mono mb-2">IEEE ICASSP 2026 (XACLE Challenge)</div>
-                    <p class="text-sm text-slate-400">Co-developed <strong>EnsembleSVR-XACLE</strong>, a robust audio classification model focusing on domain-invariant feature extraction to improve localization accuracy.</p>
+                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_10px_#38bdf8]"></div>
+                    <span class="date">2026 (Upcoming)</span>
+                    <h3 class="text-white text-base font-semibold">2nd Place Global Winner</h3>
+                    <p class="text-[11px] text-sky-400 font-mono mb-1 uppercase">IEEE ICASSP 2026 (XACLE Challenge)</p>
+                    <p class="text-sm text-slate-400">Co-developed a robust audio classification model focusing on domain-invariant feature extraction to improve localization accuracy.</p>
                 </div>
 
                 <div class="relative pl-6">
                     <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
                     <span class="date">Oct 2025</span>
-                    <h3 class="text-white font-semibold">Research Exposure</h3>
-                    <div class="text-xs text-blue-400 font-mono mb-2">Lee Quantum Optics Lab, NTHU</div>
-                    <p class="text-sm text-slate-400">Assisted in experimental setups for squeezed-state generation and synthesized quantum state tomography literature.</p>
+                    <h3 class="text-white text-base font-semibold">Research Exposure</h3>
+                    <p class="text-[11px] text-slate-500 font-mono mb-1 uppercase">Lee Quantum Optics Lab, NTHU</p>
+                    <p class="text-sm text-slate-400">Assisted in setups for squeezed-state generation and quantum state tomography synthesis.</p>
                 </div>
 
                 <div class="relative pl-6">
                     <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
                     <span class="date">Summer 2024</span>
-                    <h3 class="text-white font-semibold">Data Analyst</h3>
-                    <div class="text-xs text-blue-400 font-mono mb-2">Razan & Co. / Freshyies</div>
-                    <p class="text-sm text-slate-400">Designed executive Power BI dashboards. Translated data into narratives for strategy meetings.</p>
+                    <h3 class="text-white text-base font-semibold">Data Analyst</h3>
+                    <p class="text-[11px] text-slate-500 font-mono mb-1 uppercase">Razan & Co. / Freshyies</p>
+                    <p class="text-sm text-slate-400">Built Power BI dashboards to translate complex datasets into narrative-driven product strategies.</p>
                 </div>
 
                 <div class="relative pl-6">
-                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-                    <span class="date">Spring 2023</span>
-                    <h3 class="text-white font-semibold">Data Science Intern</h3>
-                    <div class="text-xs text-blue-400 font-mono mb-2">Prodigy InfoTech</div>
-                    <p class="text-sm text-slate-400">Built predictive models using Scikit-Learn. Automated EDA pipelines to reduce data cleaning time by 25%.</p>
-                </div>
+                     <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                     <span class="date">Spring 2023</span>
+                     <h3 class="text-white text-base font-semibold">Data Science Intern</h3>
+                     <p class="text-[11px] text-slate-500 font-mono mb-1 uppercase">Prodigy InfoTech</p>
+                     <p class="text-sm text-slate-400">Built predictive models using Scikit-Learn. Automated EDA pipelines to reduce data cleaning time by 25%.</p>
+                 </div>
 
             </div>
         </div>
     </div>
 
     <!-- WINDOW: EDUCATION -->
-    <div id="win-education" class="window" style="width: 400px; height: 320px; top: 25%; left: 50%;">
+    <div id="win-education" class="window" style="width: 440px; height: 320px; top: 25%; left: 50%;">
         <div class="window-header" onmousedown="dragMouseDown(event, 'win-education')">
-            <div class="window-title"><i class="fas fa-graduation-cap text-purple-400"></i> Education</div>
+            <div class="window-title"><i class="fas fa-graduation-cap text-purple-400"></i> Academy.sys</div>
             <div class="window-controls">
                 <div class="control-btn btn-close" onclick="closeWindow('education')"></div>
                 <div class="control-btn btn-min" onclick="minimizeWindow('education')"></div>
@@ -449,50 +516,45 @@
             </div>
         </div>
         <div class="window-content space-y-6">
-            
-            <div class="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+            <div class="p-4 rounded-xl bg-white/5 border border-white/5">
                 <span class="date">2025</span>
-                <h3 class="font-bold text-white">National Tsing Hua University</h3>
-                <p class="text-xs text-slate-400 uppercase tracking-wide">Semester Abroad Program</p>
-                <div class="mt-2 text-xs font-mono text-blue-400">TAIWAN</div>
+                <h3 class="font-bold text-white text-sm">National Tsing Hua University</h3>
+                <p class="text-[11px] text-slate-400 m-0 uppercase tracking-widest">Semester Abroad Program | Taiwan</p>
             </div>
-
-            <div class="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+            <div class="p-4 rounded-xl bg-white/5 border border-white/5">
                 <span class="date">2022 - 2026</span>
-                <h3 class="font-bold text-white">SRM Institute</h3>
-                <p class="text-xs text-slate-400 uppercase tracking-wide">B.Tech Electronics & Comm.</p>
-                <div class="mt-2 flex justify-between text-xs">
-                    <span class="font-mono text-blue-400">INDIA</span>
-                    <span class="font-bold text-emerald-400">GPA: 8.5/10</span>
-                </div>
+                <h3 class="font-bold text-white text-sm">SRM Institute</h3>
+                <p class="text-[11px] text-slate-400 m-0 uppercase tracking-widest">B.Tech Electronics & Comm. | India</p>
+                <div class="mt-2 text-sky-400 font-bold text-[11px]">GPA: 8.5/10</div>
             </div>
-
         </div>
     </div>
 
     <!-- WINDOW: CONTACT -->
-    <div id="win-contact" class="window" style="width: 400px; height: 280px; top: 30%; left: 30%;">
+    <div id="win-contact" class="window" style="width: 360px; height: 260px; top: 30%; left: 30%;">
         <div class="window-header" onmousedown="dragMouseDown(event, 'win-contact')">
-            <div class="window-title"><i class="fas fa-envelope text-pink-400"></i> Contact</div>
+            <div class="window-title"><i class="fas fa-envelope text-pink-400"></i> Contact.msg</div>
             <div class="window-controls">
                 <div class="control-btn btn-close" onclick="closeWindow('contact')"></div>
                 <div class="control-btn btn-min" onclick="minimizeWindow('contact')"></div>
                 <div class="control-btn btn-max"></div>
             </div>
         </div>
-        <div class="window-content flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-slate-900 to-slate-800">
-            <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center mb-4">
-                <i class="fas fa-paper-plane text-2xl text-blue-400"></i>
+        <div class="window-content flex flex-col items-center justify-center text-center">
+            <div class="w-12 h-12 rounded-full bg-sky-500/10 flex items-center justify-center mb-3 ring-1 ring-sky-500/20">
+                <i class="fas fa-paper-plane text-lg text-sky-400"></i>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Let's Connect</h3>
-            <p class="text-sm text-slate-400 mb-6 px-4">
-                I'm currently looking for internships for 2025/2026.
+            <h3 class="text-base font-bold text-white mb-1">Let's Connect</h3>
+            <p class="text-xs text-slate-400 mb-4 px-2">
+                Open for Research & Engineering Roles.
             </p>
-            <div class="w-full bg-slate-950 p-3 rounded-lg border border-slate-700 flex items-center justify-between group cursor-pointer hover:border-blue-500 transition-colors" onclick="navigator.clipboard.writeText('hk1583@srmist.edu.in'); alert('Email copied!')">
-                <span class="text-sm font-mono text-slate-300">hk1583@srmist.edu.in</span>
-                <i class="fas fa-copy text-slate-500 group-hover:text-white transition-colors"></i>
+            <div class="w-full bg-black/40 p-2.5 rounded-lg border border-white/10 flex items-center justify-between cursor-pointer group hover:border-sky-500/50 transition-colors relative overflow-hidden" onclick="copyEmail()">
+                <span class="text-[11px] font-mono text-slate-300 z-10">hk1583@srmist.edu.in</span>
+                <i class="fas fa-copy text-slate-500 group-hover:text-white transition z-10 text-xs"></i>
+                <div class="absolute inset-0 bg-sky-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-            <a href="mailto:hk1583@srmist.edu.in" class="mt-4 text-xs text-blue-400 hover:text-blue-300 hover:underline">Open Mail Client &rarr;</a>
+            <p id="email-feedback" class="text-[10px] text-emerald-400 mt-2 h-4 opacity-0 transition-opacity font-mono">Email copied to clipboard!</p>
+            <a href="mailto:hk1583@srmist.edu.in" class="text-[11px] font-medium text-sky-400 hover:text-sky-300 hover:underline">Open Mail Client &rarr;</a>
         </div>
     </div>
 
@@ -503,12 +565,12 @@
                 <i class="fas fa-user-circle"></i>
             </div>
             <div class="dock-item" onclick="openWindow('projects')" title="Projects">
-                <i class="fas fa-code"></i>
+                <i class="fas fa-terminal"></i>
             </div>
-            <div class="dock-item" onclick="openWindow('experience')" title="Experience">
+            <div class="dock-item" onclick="openWindow('experience')" title="History">
                 <i class="fas fa-history"></i>
             </div>
-            <div class="dock-item" onclick="openWindow('education')" title="Education">
+            <div class="dock-item" onclick="openWindow('education')" title="Academy">
                 <i class="fas fa-graduation-cap"></i>
             </div>
             <div class="dock-item" onclick="openWindow('contact')" title="Contact">
@@ -527,94 +589,65 @@
         </div>
     </div>
 
-    <!-- JS LOGIC -->
     <script>
-        // Clock
         function updateClock() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const dateString = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
-            
-            if(document.getElementById('clock')) {
-                document.getElementById('clock').innerText = timeString;
-                document.getElementById('date').innerText = dateString;
-            }
+            document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('date').innerText = now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClock, 1000); updateClock();
 
-        // Window Management
         let zIndex = 100;
-
         function openWindow(id) {
             const win = document.getElementById('win-' + id);
-            if (win.classList.contains('active') && !win.classList.contains('minimized')) {
-                // Bring to front even if active
-                zIndex++;
-                win.style.zIndex = zIndex;
-                return;
-            }
-            
+            zIndex++; win.style.zIndex = zIndex;
             win.classList.remove('minimized');
             win.classList.add('active');
-            zIndex++;
-            win.style.zIndex = zIndex;
         }
+        function closeWindow(id) { document.getElementById('win-' + id).classList.remove('active'); }
+        function minimizeWindow(id) { document.getElementById('win-' + id).classList.add('minimized'); document.getElementById('win-' + id).classList.remove('active'); }
 
-        function closeWindow(id) {
-            const win = document.getElementById('win-' + id);
-            win.classList.remove('active');
-            setTimeout(() => win.classList.remove('minimized'), 200);
-        }
-
-        function minimizeWindow(id) {
-            const win = document.getElementById('win-' + id);
-            win.classList.add('minimized');
-            win.classList.remove('active');
-        }
-
-        // Draggable Logic
         function dragMouseDown(e, id) {
-            e = e || window.event;
-            // Prevent drag when clicking controls
             if(e.target.closest('.window-controls')) return;
-            
-            e.preventDefault();
+            e = e || window.event; e.preventDefault();
             const elmnt = document.getElementById(id);
-            
-            zIndex++;
-            elmnt.style.zIndex = zIndex;
-
-            let pos3 = e.clientX;
-            let pos4 = e.clientY;
-
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-
-            function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                let pos1 = pos3 - e.clientX;
-                let pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                
+            zIndex++; elmnt.style.zIndex = zIndex;
+            let pos3 = e.clientX, pos4 = e.clientY;
+            document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+            document.onmousemove = (e) => {
+                e = e || window.event; e.preventDefault();
+                let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
+            };
         }
 
-        // Auto-open Bio on desktop load
-        window.onload = () => {
-            if (window.innerWidth > 768) {
-                setTimeout(() => openWindow('bio'), 300);
-            }
+        // Copy email function with fallback
+        function copyEmail() {
+            const email = "hk1583@srmist.edu.in";
+            // Create temporary textarea for fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = email;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            
+            // Select and copy
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Cleanup
+            document.body.removeChild(textarea);
+            
+            // Show feedback
+            const feedback = document.getElementById('email-feedback');
+            feedback.classList.remove('opacity-0');
+            setTimeout(() => feedback.classList.add('opacity-0'), 2000);
         }
+
+        window.onload = () => { if (window.innerWidth > 768) setTimeout(() => openWindow('bio'), 400); };
     </script>
 </body>
 </html>
